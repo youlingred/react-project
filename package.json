@@ -1,0 +1,19 @@
+{
+  "name": "react-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start":"npm run dev",
+    "dev":"NODE_ENV=development webpack --config",
+    "build":"NODE_ENV=production webpack --config",
+  },
+  "author": "xiehui <30897863@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+
+  },
+  "devDependencies": {
+
+  }
+}
