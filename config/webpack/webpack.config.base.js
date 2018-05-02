@@ -1,21 +1,103 @@
+'use strict';
 const path=require('path')
-
-module.exports = {
-    entry: path.resolve(__dirname,'../src/main.js'),
+const HtmlWebpackPlugin=require('html-webpack-plugin');
+module.exports={
+    entry:path.resolve(process.cwd(),'./src/main.js'),
     output: {
-        path: path.resolve(__dirname,'../dist'),
-        filename: 'index.js'
+        path:path.resolve(process.cwd(),'./dist'),
+        filename: "index.js"
     },
-    module: {
+    module:{
         rules: [
             {
-                test:/\.(js|jsx)$/,
-                use: 'react-hot!babel-loader'
+                test:/\.js$/,
+                exclude:/node_modules/,
+                loader:'babel-loader',
+                options: {
+                    presets: ["react","latest"]
+                },
             },
             {
                 test:/\.css$/,
-                use: 'style-loader!css-loader'
+                use: [
+                    'style-loader',
+                    {
+                        loader: "css-loader",
+                        options: {
+                            minimize:true
+                        }
+                    },
+                ]
+            },
+            {
+                test:/\.(scss|sass)$/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: "css-loader",
+                        options: {
+                            minimize:true
+                        }
+                    },
+                    'sass-loader'
+                ]
+            },
+            {
+                test:/\.less$/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: "css-loader",
+                        options: {
+                            minimize:true
+                        }
+                    },
+                    'less-loader'
+                ]
+            },
+            {
+                test:/\.styl/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: "css-loader",
+                        options: {
+                            minimize:true
+                        }
+                    },
+                    'stylus-loader'
+                ]
+            },
+            {
+                test:/\.(png|jpg|gif|woff|woff2|ttf)$/,
+                use: [
+                    {
+                        loader: "url-loader",
+                        options: {
+                            limit:8192
+                        }
+                    }
+                ]
+            },
+            {
+                test:/\.(mp4|ogg|svg)$/,
+                use: [
+                    'file-loader'
+                ]
             }
         ]
-    }
-};
+    },
+    resolve: {
+        extensions: ['.js', '.jsx', '.json'],
+        alias: {
+            '@':'./src/',
+        }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: path.resolve(process.cwd(),'./src/index.html'),
+            inject: true
+        }),
+    ],
+}
